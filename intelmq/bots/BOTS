@@ -3,6 +3,9 @@
         "Fileinput": {
             "description": "Fileinput collector fetches data from a file.",
             "module": "intelmq.bots.collectors.file.collector_file",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "delete_file": false,
                 "feed": "FileCollector",
@@ -15,6 +18,9 @@
         "Generic Mail Attachment Fetcher": {
             "description": "Monitor IMAP mailboxes and retrieve mail attachments",
             "module": "intelmq.bots.collectors.mail.collector_mail_attach",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "attach_regex": "csv.zip",
                 "attach_unzip": true,
@@ -32,6 +38,9 @@
         "Generic Mail URL Fetcher": {
             "description": "Monitor IMAP mailboxes and fetch files from URLs contained in mail bodies",
             "module": "intelmq.bots.collectors.mail.collector_mail_url",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "feed": "",
                 "provider": "",
@@ -51,6 +60,9 @@
         "Generic URL Fetcher": {
             "description": "Generic URL Fetcher is the bot responsible to get the report from an URL.",
             "module": "intelmq.bots.collectors.http.collector_http",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "feed": "",
                 "provider": "",
@@ -64,6 +76,9 @@
         "MISP Generic": {
             "description": "Collect events from a MISP server.",
             "module": "intelmq.bots.collectors.misp.collector",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "feed": "misp_generic",
                 "provider": "",
@@ -78,6 +93,9 @@
         "Request Tracker": {
             "description": "Request Tracker Collector fetches attachments from an RTIR instance and optionally decrypts them with gnupg.",
             "module": "intelmq.bots.collectors.rt.collector_rt",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "attachment_regex": "\\.csv\\.zip$",
                 "feed": "Request Tracker",
@@ -102,6 +120,9 @@
         "XMPP collector": {
             "description": "This bot can connect to an XMPP Server and one room, in order to receive reports from it. TLS is used by default. rate_limit is ineffective here. Bot can either pass the body or the whole event.",
             "module": "intelmq.bots.collectors.xmpp.collector",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "ca_certs": "/etc/ssl/certs/ca-certificates.crt",
                 "feed": "XMPP",
@@ -120,6 +141,9 @@
         "AlienVault OTX": {
             "description": "AlienVault OTX Collector is the bot responsible to get the report through the API. Report could vary according to subscriptions.",
             "module": "intelmq.bots.collectors.alienvault_otx.collector",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "api_key": "<insert your api key>",
                 "feed": "AlienVault OTX",
@@ -130,6 +154,9 @@
         "BitSight Ciberfeed Stream": {
             "description": "Bitsight Collector is the bot reponsible to get Bitsight Ciberfeed Alert Stream",
             "module": "intelmq.bots.collectors.bitsight.collector",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "feed": "BitSight",
                 "provider": "BitSight",
@@ -139,6 +166,9 @@
         "Blueliv Crimeserver": {
             "description": "Blueliv Crimeserver Collector is the bot responsible to get the report through the API.",
             "module": "intelmq.bots.collectors.blueliv.collector_crimeserver",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "api_key": "<insert your api key>",
                 "feed": "Blueliv Crimeserver",
@@ -149,6 +179,9 @@
         "N6stomp": {
             "description": "N6 Collector - CERT.pl's N6 Collector - N6 feed via STOMP interface. Note that rate_limit does not apply for this bot as it is waiting for messages on a stream.",
             "module": "intelmq.bots.collectors.n6.collector_stomp",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "exchange": "<INSERT your exchange point as given by CERT.pl>",
                 "feed": "n6stomp",
@@ -165,111 +198,177 @@
         "Abuse.ch Domain": {
             "description": "Abuse.ch Domain Parser is the bot responsible to parse the report and sanitize the information.",
             "module": "intelmq.bots.parsers.abusech.parser_domain",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "Abuse.ch IP": {
             "description": "Abuse.ch IP Parser is the bot responsible to parse the report and sanitize the information.",
             "module": "intelmq.bots.parsers.abusech.parser_ip",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "Abuse.ch Ransomware": {
             "description": "Abuse.ch Ransomware Parser is the bot responsible to parse the report and sanitize the information.",
             "module": "intelmq.bots.parsers.abusech.parser_ransomware",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "AlienVault": {
             "description": "AlienVault Parser is the bot responsible to parse the report and sanitize the information.",
             "module": "intelmq.bots.parsers.alienvault.parser",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "AlienVault OTX": {
             "description": "AlienVault Parser is the bot responsible to parse the report and sanitize the information.",
             "module": "intelmq.bots.parsers.alienvault.parser_otx",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "Autoshun": {
             "description": "Autoshun Parser is the bot responsible to parse the report and sanitize the information.",
             "module": "intelmq.bots.parsers.autoshun.parser",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "Bambenek": {
             "description": "Bambenek parser is the bot responsible to parse and and sanatize the information from the feeds available from Bambenek.",
             "module": "intelmq.bots.parsers.bambenek.parser",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "Bitcash Blocklist Feed": {
             "description": "Bitcash Blocklist parser is the bot responsible to parse and sanitize the information.",
             "module": "intelmq.bots.parsers.bitcash.parser",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "BitSight Ciberfeed Stream": {
             "description": "Bitsight Ciberfeed parser is the bot reponsible to parse and sanitize the information.",
             "module": "intelmq.bots.parsers.bitsight.parser",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "Blocklist.de": {
             "description": "BlockList.DE Parser is the bot responsible to parse the report and sanitize the information.",
             "module": "intelmq.bots.parsers.blocklistde.parser",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "Blueliv Crimeserver": {
             "description": "Blueliv Crimeserver Parser is the bot responsible to parse the report and sanitize the information.",
             "module": "intelmq.bots.parsers.blueliv.parser_crimeserver",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "CI Army": {
             "description": "CI Army Parser is the bot responsible to parse the report and sanitize the information.",
             "module": "intelmq.bots.parsers.ci_army.parser",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "CleanMX": {
             "description": "CleanMX Parser is the bot responsible to parse the report and sanitize the information.",
             "module": "intelmq.bots.parsers.cleanmx.parser",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "Cymru Full Bogons": {
             "description": "Cymru Full Bogons Parser is the bot responsible to parse the report and sanitize the information.",
             "module": "intelmq.bots.parsers.cymru_full_bogons.parser",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "DShield AS": {
             "description": "DShield AS Parser is the bot responsible to parse the report and sanitize the information.",
             "module": "intelmq.bots.parsers.dshield.parser_asn",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "DShield Block": {
             "description": "DShield Block Parser is the bot responsible to parse the report and sanitize the information.",
             "module": "intelmq.bots.parsers.dshield.parser_block",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "DShield Suspicious Domains": {
             "description": "DShield Suspicious Domains Parser is the bot responsible to parse the report and sanitize the information.",
             "module": "intelmq.bots.parsers.dshield.parser_domain",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "Danger Rulez": {
             "description": "Danger Rulez Parser is the bot responsible to parse the report and sanitize the information.",
             "module": "intelmq.bots.parsers.danger_rulez.parser",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "Dataplane Feeds": {
             "description": "Dataplane Parser is the bot responsible to parse the Dataplane reports and sanitize the information.",
             "module": "intelmq.bots.parsers.dataplane.parser",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "DynDNS ponmocup Domains": {
             "description": "Dyn Parser is the bot responsible to parse the report and sanitize the information.",
             "module": "intelmq.bots.parsers.dyn.parser",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "Fraunhofer DGA": {
             "description": "Fraunhofer DGA Parser is the bot responsible to parse the report and sanitize the information.",
             "module": "intelmq.bots.parsers.fraunhofer.parser_dga",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "Generic CSV": {
             "description": "Generic CSV Parser is a generic bot configurable to parse different csv collected files. Ignoring lines starting with character #. URLs without protocal can be prefixed with a default value.",
             "module": "intelmq.bots.parsers.generic.parser_csv",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "columns": [
                     "",
@@ -284,6 +383,9 @@
         "HpHosts": {
             "description": "HpHosts Parser is the bot responsible to parse the report and sanitize the information.",
             "module": "intelmq.bots.parsers.hphosts.parser",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "error_log_message": false
             }
@@ -291,6 +393,9 @@
         "JSON": {
             "description": "JSON Parser converts from a JSON-String into an Event",
             "module": "intelmq.bots.parsers.json.parser",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "splitlines": false
             }
@@ -298,61 +403,97 @@
         "MISP": {
             "description": "MISP event parser.",
             "module": "intelmq.bots.parsers.misp.parser",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "Malc0de": {
             "description": "Malc0de Parser is the bot responsible to parse the IP Blacklist and either Windows Format or Bind Format reports and sanitize the information.",
             "module": "intelmq.bots.parsers.malc0de.parser",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "Malware Domain List": {
             "description": "Malware Domain List Parser is the bot responsible to parse the report and sanitize the information.",
             "module": "intelmq.bots.parsers.malwaredomainlist.parser",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "Malware Domains": {
             "description": "Malware Domains Parser is the bot responsible to parse the report and sanitize the information.",
             "module": "intelmq.bots.parsers.malwaredomains.parser",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "MalwarePatrol Dans Guardian": {
             "description": "MalwarePatrol Dans Guardian Parser is the bot responsible to parse the report and sanitize the information.",
             "module": "intelmq.bots.parsers.malwarepatrol.parser_dansguardian",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "N6Stomp": {
             "description": "N6 Collector - CERT.pl's N6 Parser - N6 feed via STOMP interface",
             "module": "intelmq.bots.parsers.n6.parser_n6stomp",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "Netlab 360": {
             "description": "Netlab 360 Parser is the bot responsible to parse the DGA and Magnitude reports and sanitize the information.",
             "module": "intelmq.bots.parsers.netlab_360.parser",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "Nothink": {
             "description": "Nothink Feed Parser is the bot responsible to parse the SNMP, SSH, Telnet, and DNS Attack reports and sanitize the information.",
             "module": "intelmq.bots.parsers.nothink.parser",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "OpenBL": {
             "description": "OpenBL Parser is the bot responsible to parse the report and sanitize the information.",
             "module": "intelmq.bots.parsers.openbl.parser",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "OpenPhish": {
             "description": "OpenPhish Parser is the bot responsible to parse the report and sanitize the information.",
             "module": "intelmq.bots.parsers.openphish.parser",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "PhishTank": {
             "description": "PhishTank Parser is the bot responsible to parse the report and sanitize the information.",
             "module": "intelmq.bots.parsers.phishtank.parser",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "ShadowServer": {
             "description": "ShadowServer Parser is a bot capable of parsing all shadowserver feeds, depending on configuration files. Parameter 'feedname' is used as identifier to chose the correct mapping.",
             "module": "intelmq.bots.parsers.shadowserver.parser",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "feedname": "",
                 "overwrite": true
@@ -361,16 +502,25 @@
         "Spamhaus CERT": {
             "description": "Spamhaus CERT Parser is the bot responsible to parse the report and sanitize the information.",
             "module": "intelmq.bots.parsers.spamhaus.parser_cert",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "Spamhaus Drop": {
             "description": "Spamhaus Drop Parser is the bot responsible to parse the DROP, EDROP, DROPv6, and ASN-DROP reports and sanitize the information.",
             "module": "intelmq.bots.parsers.spamhaus.parser_drop",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "Taichung": {
             "description": "Taichung Parser is the bot responsible to parse the report and sanitize the information.",
             "module": "intelmq.bots.parsers.taichung.parser",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "error_log_message": false
             }
@@ -378,16 +528,25 @@
         "Turris Greylist": {
             "description": "Turris Greylist Parser is the bot responsible to parse the report and sanitize the information.",
             "module": "intelmq.bots.parsers.turris.parser",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "URLVir": {
             "description": "URLVir Parser is the bot responsible to parse the Export Hosts and Export IP Addresses reports and sanitize the information.",
             "module": "intelmq.bots.parsers.urlvir.parser",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "VXVault": {
             "description": "VXVault Parser is the bot responsible to parse the report and sanitize the information.",
             "module": "intelmq.bots.parsers.vxvault.parser",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         }
     },
@@ -395,6 +554,9 @@
         "ASN Lookup": {
             "description": "ASN Lookup is the bot responsible to add ASN and BGP information from Route Views Project to the events.",
             "module": "intelmq.bots.experts.asn_lookup.expert",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "database": "/opt/intelmq/var/lib/bots/asn_lookup/ipasn.dat"
             }
@@ -402,6 +564,9 @@
         "Abusix": {
             "description": "Abusix is the bot resposible to get the correspondent abuse contact from source IP and destination IP of the events",
             "module": "intelmq.bots.experts.abusix.expert",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "redis_cache_db": "5",
                 "redis_cache_host": "127.0.0.1",
@@ -413,6 +578,9 @@
         "CERT.at Contact Database": {
             "description": "Cert.at Contact Database is the bot responsible to get CERT. Set filter to true if you want to filter out events for cert.at. Set add_cc to true if you want to overwrite an existing CC value.",
             "module": "intelmq.bots.experts.certat_contact.expert",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "filter": false,
                 "http_verify_cert": true,
@@ -422,6 +590,9 @@
         "Cymru Whois": {
             "description": "Cymry Whois (IP to ASN) is the bot responsible to add network information to the events (BGP, ASN, AS Name, Country, etc..).",
             "module": "intelmq.bots.experts.cymru_whois.expert",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "redis_cache_db": "5",
                 "redis_cache_host": "127.0.0.1",
@@ -433,6 +604,9 @@
         "Deduplicator": {
             "description": "Deduplicator is the bot responsible for detection and removal of duplicate messages. Messages get cached for <redis_cache_ttl> seconds. If found in the cache, it is assumed to be a duplicate.",
             "module": "intelmq.bots.experts.deduplicator.expert",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "ignore_keys": "raw,time.observation",
                 "redis_cache_db": "6",
@@ -445,6 +619,9 @@
         "Filter": {
             "description": "Filters out events depending on bot parameters specification (filter_key, filter_value, filter_action)",
             "module": "intelmq.bots.experts.filter.expert",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "filter_action": "<keep/drop>",
                 "filter_key": "<source.geolocation.cc>",
@@ -455,6 +632,9 @@
         "Generic DB Lookup": {
             "description": "Fetches data from a database.",
             "module": "intelmq.bots.experts.generic_db_lookup.expert",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "database": "intelmq",
                 "host": "localhost",
@@ -476,11 +656,17 @@
         "Gethostbyname": {
             "description": "fqdn2ip is the bot responsible to parsing the ip from the fqdn.",
             "module": "intelmq.bots.experts.gethostbyname.expert",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "MaxMind GeoIP": {
             "description": "MaxMind GeoIP is the bot responsible for adding geolocation information to events (Country, City, Longitude, Latitude, etc..)",
             "module": "intelmq.bots.experts.maxmind_geoip.expert",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "database": "/opt/intelmq/var/lib/bots/maxmind_geoip/GeoLite2-City.mmdb"
             }
@@ -488,6 +674,9 @@
         "Modify": {
             "description": "Modify bot can make nearly arbitrary changes to event's fields based on regex-rules on different values. See docs/Bots.md for some examples.",
             "module": "intelmq.bots.experts.modify.expert",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "configuration_path": "/opt/intelmq/var/lib/bots/modify/modify.conf"
             }
@@ -495,6 +684,9 @@
         "RFC 1918": {
             "description": "RFC 1918 removes fields or discards events if an ip or domain is invalid (invalid, local, reserved, documentation). IP, FQDN and URL field names are supported.",
             "module": "intelmq.bots.experts.rfc1918.expert",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "fields": "destination.ip,source.ip,source.url",
                 "policy": "del,drop,drop"
@@ -503,6 +695,9 @@
         "RIPENCC": {
             "description": "RIPENCC is the bot resposible to get the correspondent abuse contact from source IP and destination IP of the events. RIPEstat documentation: https://stat.ripe.net/docs/data_api ",
             "module": "intelmq.bots.experts.ripencc_abuse_contact.expert",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "query_ripe_db_asn": true,
                 "query_ripe_db_ip": true,
@@ -517,6 +712,9 @@
         "Reverse DNS": {
             "description": "Reverse DNS is the bot resposible to get the correspondent domain name source IP and destination IP of the events",
             "module": "intelmq.bots.experts.reverse_dns.expert",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "redis_cache_db": "7",
                 "redis_cache_host": "127.0.0.1",
@@ -529,11 +727,17 @@
         "Taxonomy": {
             "description": "Taxonomy is the bot responsible to apply the eCSIRT Taxonomy to all events.",
             "module": "intelmq.bots.experts.taxonomy.expert",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {}
         },
         "Tor Nodes": {
             "description": "Tor Nodes is the bot responsible to check if an IP is an Tor Exit Node.",
             "module": "intelmq.bots.experts.tor_nodes.expert",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "database": "/opt/intelmq/var/lib/bots/tor_nodes/tor_nodes.dat"
             }
@@ -541,6 +745,9 @@
         "url2fqdn": {
             "description": "url2fqdn is the bot responsible to parsing the fqdn from the url.",
             "module": "intelmq.bots.experts.url2fqdn.expert",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "overwrite": false
             }
@@ -550,6 +757,9 @@
         "AMQP Topic": {
             "description": "AMQP Topic is the bot responsible to send events to a AMQP topic exchange.",
             "module": "intelmq.bots.outputs.amqptopic.output",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "connection_attempts": 3,
                 "connection_heartbeat": 3600,
@@ -571,6 +781,9 @@
         "File": {
             "description": "File is the bot responsible to send events to a file.",
             "module": "intelmq.bots.outputs.file.output",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "file": "/opt/intelmq/var/lib/bots/file-output/events.txt",
                 "hierarchical_output": false
@@ -579,6 +792,9 @@
         "MongoDB": {
             "description": "MongoDB is the bot responsible to send events to a MongoDB database.",
             "module": "intelmq.bots.outputs.mongodb.output",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "collection": "<collection>",
                 "database": "<database>",
@@ -590,6 +806,9 @@
         "PostgreSQL": {
             "description": "PostgreSQL is the bot responsible to send events to a PostgreSQL Database. When activating autocommit, transactions are not used: http://initd.org/psycopg/docs/connection.html#connection.autocommit",
             "module": "intelmq.bots.outputs.postgresql.output",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "autocommit": true,
                 "database": "intelmq-events",
@@ -604,6 +823,9 @@
         "REST API": {
             "description": "REST API is the bot responsible to send events to a REST API listener through POST.",
             "module": "intelmq.bots.outputs.restapi.output",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "auth_token": "<token>",
                 "auth_token_name": "<token name>",
@@ -614,6 +836,9 @@
         "Redis": {
             "description": "Redis is the bot responsible to send events to a Redis server.",
             "module": "intelmq.bots.outputs.redis.output",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "redis_db": 2,
                 "redis_password": "<password>",
@@ -626,6 +851,9 @@
         "TCP": {
             "description": "TCP is the bot responsible to send events to a tcp port (Splunk, ElasticSearch, etc..).",
             "module": "intelmq.bots.outputs.tcp.output",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "ip": "<ip>",
                 "port": "<port>",
@@ -635,6 +863,9 @@
         "UDP": {
             "description": "UDP is a simple UDP bot responsible to send events to a udp port (e.g.: syslog daemon). For more explanations about the parameters field, checkout out the README.md",
             "module": "intelmq.bots.outputs.udp.output",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "field_delimiter": "|",
                 "format": "<json/delimited> read README.md",
@@ -647,6 +878,9 @@
         "XMPP": {
             "description": "XMPP is the bot responsible to send events to an XMPP server.",
             "module": "intelmq.bots.outputs.xmpp.output",
+            "run_mode": "<stream | scheduled>",
+            "scheduled_time": "<crontab time syntax>",
+            "botnet": false,
             "parameters": {
                 "ca_certs": "/etc/ssl/certs/ca-certificates.crt",
                 "hierarchical_output": false,

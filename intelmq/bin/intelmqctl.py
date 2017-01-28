@@ -13,6 +13,8 @@ import subprocess
 import pkg_resources
 import psutil
 
+from crontab import CronTab
+
 from intelmq.lib import utils
 from intelmq.lib.pipeline import PipelineFactory
 
@@ -84,31 +86,63 @@ class BotManager:
     def __init__(self, config):
         self.config = config
 
+
     def bot_status(self, bot_id):
-        output = subprocess.check_output(["systemctl", "status", self.__instance(bot_id)])
-        print(output.decode('utf-8'))
+        if self.__get_run_mode(bot_id) == "stream":
+            output = self.__exec_systemd('status', bot_id)
+            print(output.decode('utf-8'))
+
+        elif self.__get_run_mode(bot_id) == "scheduled":
+            pass
+
 
     def bot_start(self, bot_id):
-        output = subprocess.check_output(["systemctl", "start", self.__instance(bot_id)])
+        if self.__get_run_mode(bot_id) == "stream":
+            output = self.__exec_systemd('start', bot_id)
+
+        elif self.__get_run_mode(bot_id) == "scheduled":
+            self.__schedule_cronjob(bot_id)
+
 
     def bot_stop(self, bot_id):
-        output = subprocess.check_output(["systemctl", "stop", self.__instance(bot_id)])
+        if self.__get_run_mode(bot_id) == "stream":
+            output = self.__exec_systemd('stop', bot_id)
+
+        elif self.__get_run_mode(bot_id) == "scheduled":
+            self.__unschedule_cronjob(bot_id)
+
 
     def bot_restart(self, bot_id):
-        output = subprocess.check_output(["systemctl", "restart", self.__instance(bot_id)])
+        if self.__get_run_mode(bot_id) == "stream":
+            output = self.__exec_systemd('restart', bot_id)
+
+        elif self.__get_run_mode(bot_id) == "scheduled":
+            self.__unschedule_cronjob(bot_id)
+            self.__schedule_cronjob(bot_id)
+
 
     def bot_enable(self, bot_id):
-        raise ValueError('Option not implemented.')
+        if self.__get_run_mode(bot_id) == "stream":
+            output = self.__exec_systemd('enable', bot_id)
+
+        elif self.__get_run_mode(bot_id) == "scheduled":
+            pass
+
 
     def bot_disable(self, bot_id):
-        raise ValueError('Option not implemented.')
+        if self.__get_run_mode(bot_id) == "stream":
+            output = self.__exec_systemd('disable', bot_id)
+
+        elif self.__get_run_mode(bot_id) == "scheduled":
+            pass
+
 
     def bot_activate_on_botnet(self):
-        #self.__runtime_configuration[bot_id].get('botnet', True)
+        #self.__runtime_configuration[bot_id].set('botnet', True)
         raise ValueError('Option not implemented.')
 
     def bot_deactivate_on_botnet(self):
-        #self.__runtime_configuration[bot_id].get('botnet', False)
+        #self.__runtime_configuration[bot_id].set('botnet', False)
         raise ValueError('Option not implemented.')
 
     def is_enable(self, bot_id):
@@ -117,10 +151,34 @@ class BotManager:
     def is_disable(self, bot_id):
         raise ValueError('Option not implemented.')
 
-    def __instance(self, bot_id):
-        module = self.config[bot_id]['module']
-        instance = "%s@%s.service" % (module, bot_id)
-        return instance
+    def __get_instance(self, bot_id):
+        return "%s@%s.service" % (self.__get_module(bot_id), bot_id)
+
+    def __get_module(self, bot_id):
+        return self.config[bot_id]['module']
+
+    def __get_run_mode(self, bot_id):
+        return self.config[bot_id]['run_mode']
+
+    def __get_scheduled_time(self, bot_id):
+        return self.config[bot_id]['scheduled_time']
+
+    def __schedule_cronjob(self, bot_id):
+        command = '/usr/local/bin/%s' % self.__get_module(bot_id)
+        cron = CronTab(user='intelmq')
+        job = cron.new(command=command, comment='IntelMQ Bot %s' % bot_id)
+        job.setall(self.__get_scheduled_time(bot_id))
+        job.enable()
+        cron.write()
+
+    def __unschedule_cronjob(self, bot_id):
+        cron = CronTab(user='intelmq')
+        cron.remove_all(comment='IntelMQ Bot %s' % bot_id)
+        cron.write()
+
+    def __exec_systemd(self, action, bot_id):
+        instance = self.__get_instance(bot_id)
+        return subprocess.check_output(["systemctl", action, instance])
 
 
 class IntelMQController():
