@@ -35,14 +35,31 @@ DATA = [
      ),
 ]
 
+SYSTEMD_CONF_DIR = "/lib/systemd/system/"
+SYSTEMD_SERVICE_FILENAME = "%s@.service"
+
 exec(open(os.path.join(os.path.dirname(__file__),
                        'intelmq/version.py')).read())  # defines __version__
+
 BOTS = []
 bots = json.load(open(os.path.join(os.path.dirname(__file__), 'intelmq/bots/BOTS')))
+
 for bot_type, bots in bots.items():
     for bot_name, bot in bots.items():
         module = bot['module']
+
+        # Generate executables on default environment path
         BOTS.append('{0} = {0}:BOT.run'.format(module))
+
+        # Generate systemd service files
+        with open(os.path.join(os.path.dirname(__file__), 'contrib/systemd/systemd.service.template')) as fp:
+            systemd_template = fp.read()
+
+        systemd_template = systemd_template.replace('{{MODULE}}', "/usr/local/bin/%s" % module)
+
+        with open(SYSTEMD_CONF_DIR + SYSTEMD_SERVICE_FILENAME % module, 'w') as fp:
+            fp.write(systemd_template)
+
 
 setup(
     name='intelmq',
@@ -77,7 +94,6 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
         'Topic :: Security',
     ],
     keywords='incident handling cert csirt',

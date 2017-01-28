@@ -1,0 +1,7 @@
+[Unit]
+Description=IntelMQ Bot %i
+
+[Service]
+ExecStart={{MODULE}} %i
+Restart=on-failure
+StandardOutput=journal
