@@ -130,11 +130,13 @@ intelmqctl <action command> <bot_id> <flags>
 
 ### Generic flags
 
-* `--now`: this parameter will execute the bot automatically without taking into account `run_mode`.
-* `--debug`: this parameter will execute the bot in debug mode which automatically run it in foreground in order to easily see the log lines in the console and the log level will also automatically set up to `DEBUG`.
-* `--filter`: this parameter will provide to sysadmin a quick way to apply a filter to which bots the action will take place. The filtering can be done using the configuration parameters as the following example:
+* `--filter`: this flag will provide to sysadmin a quick way to specify which bots this action will be apply. The filtering can be done using the configuration keys parameters as the following examples:
+
 ```
 intelmqctl start --filter "run_mode:scheduled, group:Collectors"
+```
+```
+intelmqctl stop --filter "run_mode:continuous, group:Outputs"
 ```
 
 
@@ -145,6 +147,11 @@ intelmqctl start --filter "run_mode:scheduled, group:Collectors"
 ```
 intelmqctl start <bot_id> <flags>
 ```
+
+**Specific flags:**
+
+* `--oneshot`: this flag will execute the bot now and process successfully one message and then exit. This action MUST NOT taking into account `run_mode`.
+* `--foreground`: this flag will execute the bot in foreground, showing the logs in the terminal window.
 
 **Procedure:**
 
@@ -161,6 +168,8 @@ intelmqctl start <bot_id> <flags>
     - intelmqctl will check if crontab configuration line for the bot is already on crontab:
      - if crontab configuration line exists, do nothing. In the end, write a log message "bot is already scheduled"
      - if crontab configuration line does not exists, add configuration line on crontab such as `<schedule_time> <intelmq bot module> <bot_id> # <bot_id>`. In the end, write a log message "bot is schedule and will run at this time: `* * * * * `"
+
+
 
 
 ## intelmqctl stop action
