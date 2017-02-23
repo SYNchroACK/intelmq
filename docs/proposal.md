@@ -27,13 +27,12 @@ Table of Contents
 
 # Definitions
 
-* **system:** system on this proposal means IntelMQ system.
 * **operating system:** operating system on this proposal means the operating systems currently supported by IntelMQ.
-* **production environment:** system that belongs to production environment is considered a system that should never stop and should work properly all the time.
 * **{runtime, defaults, pipeline} configuration:** term to mention the configuration without specifying if internal or admin configuration because is not required for the explanation since it's not revelevant.
 * **admin {runtime, defaults, pipeline} configuration:** a configuration file used by IntelMQ sysadmin and also used by intelmqctl.
 * **internal {runtime, defaults, pipeline} configuration:** a hidden configuration file only used by intelmqctl to track of the last successfully configuration used to perform some action through intelmqctl. This file is located in `/var/run/intelmq/` and should not be manually changed.
 * **`process_manager: "pid/systemd"`**: is a parameter on defaults configuration which will define the process manager that IntelMQ will use to manage the bots.
+* **`status: enable/disable`**: is a parameter on runtime configuration which will define is a bot can be started or not.
 * **`onboot: true/false`** is a parameter of runtime configuration per each bot to define if a bot will start on boot.
 * **`run_mode: <scheduled/continuous>`** is a parameter of runtime configuration per each bot to define how bot should run.
  - **`continuous`:** this value will allow the bot to run and process messages indefinitely.
@@ -55,13 +54,23 @@ Process management on IntelMQ has two modes on this proposal: systemd and PID. C
 }
 ```
 
+## Status
+
+An bot configured with `status: enable` will be allowed to start using `intelmqctl` command. If bot is configured with `status: disable`, the bot will not be allowed to start in any way. This functionality is useful for bots that are not working properly, therefore cannot be start unless the status changes by sysadmin.
+
+```
+    "abusech-domain-parser": {
+        ...
+        "parameters": {
+            "status": "enable"
+        }
+    }
+```
+
 ## Onboot
 
 An IntelMQ bot configured with onboot enabled will start automatically when operating system starts.
 
-**Note:** only using systemd as process management will allow bots to run onboot, therefore, if IntelMQ system is configured with PID as process management, the `onboot` runtime configuration parameter will be completely ignored by the system. The reason why PID process management on boot is not including on this proposal is due the lack of reliability of PID files being used in a production system.
-
-**Bot onboot on runtime configuration**
 ```
     "abusech-domain-parser": {
         ...
@@ -393,3 +402,11 @@ Please note that this scenario is using botnet commands, therefore, it's crutial
   * if "N", intelmqctl add the bot configuration stored in internal runtime configuration to the admin runtime configuration in order to keep the admin runtime configuration up to date accordingly.
 
 The **correct procedure** is stop bot first and then remove bot configuration from admin runtime configuration.
+
+
+
+
+
+# Discuss with Aaron
+
+* missing concept: every bot MUST have a self-test and stats-component. This can be used for the ctl tool to check if the internal state of a bot is OK.
