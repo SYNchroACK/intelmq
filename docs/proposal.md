@@ -371,3 +371,4 @@ intelmqctl disable <bot_id> <flags>
 * Tomas: what should happen if user change `status` (old `enable`) configuration parameter manually on config to `false` value but the bot stills running? Imagine that after this the sysadmin execute `intelmqctl reload <bot-id>` command....what should happen?
 * Tomas: need to remember why is crutial to split `autostart` in `onboot` and `status` parameters.
  * Tomas: if a bot is configured with `autostart: true` and `run_mode: scheduled`, the `intelmq.scheduled_bots_onboot.service` service will not be able to know if the bot is only active to be start or if really need to check on crontab during the boot of operating system if the crontab is configured to start the bot.
+* Tomas: is really a requirement to have intelqmctl as a interface even in crontab configuration file because of PID files.... if we write python module for PID process management will create PID files so stills a problem. FIXME
