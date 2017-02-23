@@ -28,7 +28,7 @@ Table of Contents
 
 ## Process management
 
-Process management on IntelMQ has two modes on this proposal: systemd and PID.\
+Process management on IntelMQ has two modes on this proposal: systemd and PID.
 Changing on IntelMQ configuration the process management to PID will work as always worked before. Using systemd to do process management will rely on systemd to manage the IntelMQ.
 
 **on defaults configuration:**
@@ -99,6 +99,9 @@ In a quick overview, admin configurations are the usual configurations that the 
 In a nutshell, intelmqctl will always have a copy of the three main configuration files (runtime.conf, defaults.conf and pipeline.conf) and will use them to detect possible issues, such as, bots which are running but not being managed since they were removed manually from configuration files.
 
 **Technical Information (only for implementation clarification purposes):** In situations where intelmqctl detects some insconsitence between the internal configurations (which have the current running state) and the admin configurations, intelmqctl will require action from sysadmin. Also, in case intelmqctl is NOT being run on interactive mode, will be available the possibility to specify flags to automatically perform the actions without need interaction. Regarding the check procedure in order to detect the inconsistencies, intelmqctl will always perform the normal checks between internal runtime configuration and admin runtime configuration for all bots even if the `intelmqctl` command was executed just to only one bot. This checks will allow the sysadmin to be aware that something is wrong with the configuration even if sysadmin is executing other command with intelmqctl, therefore, a warning message will always show in the end of the command output.
+
+
+**IMPORTANT NOTE:** the checks which will be performed are hard to explain in this document, etc etc etc... For the sake of simplicity, please lets assume that the checks will ALWAYS handle if bad things happen. Yes, we can discuss what and how to handle, but is not important now on this proposal. The **MAIN THING** here is: is a MUST to have this checks and is also a MUST to always have a stable configurations, lets keep in mind in all this document.
 
 
 # intelmqctl
@@ -398,4 +401,7 @@ The **correct procedure** is stop bot first and then remove bot configuration fr
 
 # Discuss with Aaron
 
-* missing concept: every bot MUST have a self-test and stats-component. This can be used for the ctl tool to check if the internal state of a bot is OK.
+* Aaron: missing concept: every bot MUST have a self-test and stats-component. This can be used for the ctl tool to check if the internal state of a bot is OK.
+ * Tomas: need clarification from Aaron
+* Aaron: process manager is independent of run mode (in an abstract sense). Let's keep this separated.
+ * Tomas: dont understand this comment. This comment is on a Process management section which does not mention anything about run modes. 
