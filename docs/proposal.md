@@ -97,7 +97,7 @@ Each bot can be configured with a specific run mode such as:
 
 ## Run Modes with Process Management
 
-![architecture](https://s27.postimg.org/6snypqi9v/intelmqctl_2.jpg)
+![architecture](https://s22.postimg.org/qdylth98x/intelmq_bots_management.png)
 
 
 ## Configurations (admin vs internal)
