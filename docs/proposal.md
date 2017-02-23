@@ -1,27 +1,31 @@
 Table of Contents
 =================
 
-   * [Table of Contents](#table-of-contents)
    * [Concepts](#concepts)
       * [Process management](#process-management)
+      * [Status](#status)
       * [Onboot](#onboot)
       * [Run mode](#run-mode)
       * [Run Modes with Process Management](#run-modes-with-process-management)
       * [Configurations (admin vs internal)](#configurations-admin-vs-internal)
-         * [Configurations Check Procedure](#configurations-check-procedure)
    * [intelmqctl](#intelmqctl)
+      * [Overview](#overview)
+         * [intelmqctl Principles](#intelmqctl-principles)
+         * [Syntax](#syntax)
+         * [Generic flags](#generic-flags)
       * [intelmqctl start action](#intelmqctl-start-action)
       * [intelmqctl stop action](#intelmqctl-stop-action)
       * [intelmqctl restart action](#intelmqctl-restart-action)
       * [intelmqctl reload action](#intelmqctl-reload-action)
-      * [intelmqctl configtest action](#intelmqctl-configtest-action)4pm
+      * [intelmqctl configtest action](#intelmqctl-configtest-action)
       * [intelmqctl status action](#intelmqctl-status-action)
       * [intelmqctl enable action](#intelmqctl-enable-action)
       * [intelmqctl disable action](#intelmqctl-disable-action)
-   * [Scenarios DEPRECATED](#scenarios-deprecated)
+   * [Scenarios (DEPRECATED)](#scenarios-deprecated)
       * [Scenario 1](#scenario-1)
       * [Scenario 2](#scenario-2)
       * [Scenario 3](#scenario-3)
+   * [Discuss with Aaron](#discuss-with-aaron)
 
 
 # Concepts
