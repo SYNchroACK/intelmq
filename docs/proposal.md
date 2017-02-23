@@ -369,3 +369,4 @@ intelmqctl disable <bot_id> <flags>
 * Aaron: too complicated. It tries to solve independent things at once in one document --> split it!
  * Tomas: they are not independent, I would say that is a really a challenge to describe one piece without mentioning other one or without having knowledge about other one. Also, its better for proposal purposes to have all info in one document... 
 * Tomas: what should happen if user change `status` (old `enable`) configuration parameter manually on config to `false` value but the bot stills running? Imagine that after this the sysadmin execute `intelmqctl reload <bot-id>` command....what should happen?
+* Tomas: need to remember why is crutial to split `autostart` in `onboot` and `status` parameters.
