@@ -46,7 +46,7 @@ Changing on IntelMQ configuration the process management to PID will work as alw
 
 1. `<bot-module>.continuous.service`: these service template files are templates to be instantiated by intelmqctl for each bot module configured with `run_mode: continuous`.
 2. `<bot-module>.scheduled.service`: these service template files are templates to be to be instantiated by crontab for each bot module configured with `run_mode: scheduled`.
-3. `intelmq.scheduled_bots_onboot.service`: this service file is always enable and running in order to take care of the bots configured with `run_mode: scheduled` that need to be configured on crontab when operating system starts. Please note that this service MUST be executed only onboot and before crontab service.
+3. `intelmq.scheduled_bots_onboot.service`: this service file exists in order to take care of the bots configured with `run_mode: scheduled` that need to be configured on crontab when operating system starts. Please note that this service MUST be executed only onboot and before crontab service.
 
 ## Status
 
