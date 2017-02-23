@@ -5,7 +5,6 @@ Table of Contents
    * [Definitions](#definitions)
    * [Concepts](#concepts)
       * [Process management](#process-management)
-      * [Botnet](#botnet)
       * [Onboot](#onboot)
       * [Run mode](#run-mode)
       * [Run Modes with Process Management](#run-modes-with-process-management)
@@ -16,13 +15,11 @@ Table of Contents
       * [intelmqctl stop action](#intelmqctl-stop-action)
       * [intelmqctl restart action](#intelmqctl-restart-action)
       * [intelmqctl reload action](#intelmqctl-reload-action)
-      * [intelmqctl configtest action](#intelmqctl-configtest-action)
+      * [intelmqctl configtest action](#intelmqctl-configtest-action)4pm
       * [intelmqctl status action](#intelmqctl-status-action)
       * [intelmqctl enable action](#intelmqctl-enable-action)
       * [intelmqctl disable action](#intelmqctl-disable-action)
-      * [intelmqctl add-to-botnet action](#intelmqctl-add-to-botnet-action)
-      * [intelmqctl remove-from-botnet action](#intelmqctl-remove-from-botnet-action)
-   * [Scenarios](#scenarios)
+   * [Scenarios DEPRECATED](#scenarios-deprecated)
       * [Scenario 1](#scenario-1)
       * [Scenario 2](#scenario-2)
       * [Scenario 3](#scenario-3)
@@ -37,9 +34,7 @@ Table of Contents
 * **admin {runtime, defaults, pipeline} configuration:** a configuration file used by IntelMQ sysadmin and also used by intelmqctl.
 * **internal {runtime, defaults, pipeline} configuration:** a hidden configuration file only used by intelmqctl to track of the last successfully configuration used to perform some action through intelmqctl. This file is located in `/var/run/intelmq/` and should not be manually changed.
 * **`process_manager: "pid/systemd"`**: is a parameter on defaults configuration which will define the process manager that IntelMQ will use to manage the bots.
-* **`botnet: true/false`** is a parameter of runtime configuration per each bot to define if a bot is part of the botnet or not.
 * **`onboot: true/false`** is a parameter of runtime configuration per each bot to define if a bot will start on boot.
-* **`botnet_onboot: true/false`** is a parameter of defaults configuration which will define if the bots configured as part of the botnet will start onboot.
 * **`run_mode: <scheduled/stream>`** is a parameter of runtime configuration per each bot to define how bot should run.
  - **`stream`:** this value will allow the bot to run and process messages indefinitely.
  - **`scheduled`:** this value will allow the bot to start at `schedule_time` (bot parameter), run one successfully time and then exit.
@@ -60,28 +55,9 @@ Process management on IntelMQ has two modes on this proposal: systemd and PID. C
 }
 ```
 
-## Botnet
-
-Botnet is a concept which have the following principles:
-
-* botnet is a group of bots which are configured with a parameter `botnet: True`.
-* each bot that belongs to botnet should be considered as a bot working and running properly in a organization production environment.
-
-**Note:** IntelMQ system provides a mechanism to execute just in one command (e.g start/stop/restart/reload/status) actions to all bots which belong to botnet (independently of the `run_mode` parameter). Please check additional information related to this process on each botnet action.
-
-**on runtime configuration:**
-```
-    "abusech-domain-parser": {
-        ...
-        "parameters": {
-            "botnet": true
-        }
-    }
-```
-
 ## Onboot
 
-An IntelMQ bot or botnet configured with onboot enabled will start automatically when operating system starts.
+An IntelMQ bot configured with onboot enabled will start automatically when operating system starts.
 
 **Note:** only using systemd as process management will allow bots to run onboot, therefore, if IntelMQ system is configured with PID as process management, the `onboot` runtime configuration parameter will be completely ignored by the system. The reason why PID process management on boot is not including on this proposal is due the lack of reliability of PID files being used in a production system.
 
@@ -93,15 +69,6 @@ An IntelMQ bot or botnet configured with onboot enabled will start automatically
             "onboot": true
         }
     }
-```
-
-**Botnet onboot on defaults configuration:**
-```
-{
-    ...
-    "botnet_onboot": true
-    ...
-}
 ```
 
 ## Run mode
@@ -149,7 +116,7 @@ intelmqctl will always perform the normal checks between internal runtime config
 
 **Syntax:**
 ```
-intelmqctl <action command> [<bot_id> | botnet ] <flags>
+intelmqctl <action command> <bot_id> <flags>
 ```
 
 **Flags:**
@@ -167,7 +134,7 @@ intelmqctl start --filter "run_mode:scheduled, group:Collectors"
 **Command:**
 
 ```
-intelmqctl start [<bot_id> | botnet ] <flags>
+intelmqctl start <bot_id> <flags>
 ```
 
 **Procedure:**
@@ -192,7 +159,7 @@ intelmqctl start [<bot_id> | botnet ] <flags>
 **Command:**
 
 ```
-intelmqct stop [<bot_id> | botnet ] <flags>
+intelmqct stop <bot_id> <flags>
 ```
 
 **Procedure:**
@@ -217,7 +184,7 @@ intelmqct stop [<bot_id> | botnet ] <flags>
 **Command:**
 
 ```
-intelmqctl restart [<bot_id> | botnet ] <flags>
+intelmqctl restart <bot_id> <flags>
 ```
 
 **Procedure:**
@@ -231,7 +198,7 @@ intelmqctl restart [<bot_id> | botnet ] <flags>
 **Command:**
 
 ```
-intelmqctl reload [<bot_id> | botnet ] <flags>
+intelmqctl reload <bot_id> <flags>
 ```
 
 **Procedure:**
@@ -264,7 +231,7 @@ intelmqctl reload [<bot_id> | botnet ] <flags>
 
 **Command:**
 ```
-intelmqctl configtest [<bot_id> | botnet ] <flags>
+intelmqctl configtest <bot_id> <flags>
 ```
 
 **Procedure:**
@@ -278,7 +245,7 @@ intelmqctl configtest [<bot_id> | botnet ] <flags>
 
 **Command:**
 ```
-intelctl status [<bot_id> | botnet ] <flags>
+intelctl status <bot_id> <flags>
 ```
 
 **Procedure:**
@@ -298,17 +265,17 @@ intelctl status [<bot_id> | botnet ] <flags>
 
 **Ouput Proposal Example 1:**
 
-| bot_id    | run_mode    | scheduled_time (if applicable) | is on botnet | status             | enabled_on_boot | configtest   |
-|-----------|-------------|--------------------------------|--------------|--------------------|-----------------|--------------|
-| my-bot-1  | stream      | -                              | true         | running            | yes             | valid        |
+| bot_id    | run_mode    | scheduled_time (if applicable) | status             | enabled_on_boot | configtest   |
+|-----------|-------------|--------------------------------|--------------------|-----------------|--------------|
+| my-bot-1  | stream      | -                              | running            | yes             | valid        |
 
 Also intelmqctl should print the last 10 log lines from the log of this bot.
 
 **Ouput Proposal Example 2:**
 
-| bot_id    | run_mode    | scheduled_time (if applicable) | is on botnet | status             | enabled_on_boot | configtest   |
-|-----------|-------------|--------------------------------|--------------|--------------------|-----------------|--------------|
-| my-bot-2  | scheduled   | 1 * * * *                      | false        | running (unstable) | no              | invalid      |
+| bot_id    | run_mode    | scheduled_time (if applicable) | status             | enabled_on_boot | configtest   |
+|-----------|-------------|--------------------------------|--------------------|-----------------|--------------|
+| my-bot-2  | scheduled   | 1 * * * *                      | running (unstable) | no              | invalid      |
 
 Also intelmqctl should print the last 10 log lines from the log of this bot.
 
@@ -317,7 +284,7 @@ Also intelmqctl should print the last 10 log lines from the log of this bot.
 
 **Command:**
 ```
-intelctl enable [<bot_id> | botnet ] <flags>
+intelctl enable <bot_id> <flags>
 ```
 
 **Procedure:**
@@ -344,7 +311,7 @@ intelctl enable [<bot_id> | botnet ] <flags>
 
 **Command:**
 ```
-intelctl disable [<bot_id> | botnet ] <flags>
+intelctl disable <bot_id> <flags>
 ```
 
 **Procedure:**
@@ -367,40 +334,8 @@ intelctl disable [<bot_id> | botnet ] <flags>
     - intelmqctl will not perform any other action because there is a `intelmq.scheduled_bots_on_boot.service` which is always enable and will automatically write the crontab configuration accordingly to the all bots configured as `run_mode: scheduled` and `onboot: true`, therefore will not write on crontab configuration anything related to this bot disabled onboot. For more information please read "Run Modes with Process Management concept" section.
 
 
-## intelmqctl add-to-botnet action
 
-**Command:**
-```
-intelctl add-to-botnet [<bot_id>] <flags>
-```
-
-**Procedure:**
-
-* command only applies to bots, not to botnet
-* `intelmqctl` will perform the usual checks and if no errors found, `intelmqctl` will configure the botnet configuration for the <bot_id> with `botnet: true`, independently of the `run_mode` and `process_manager` configuration parameter.
-* `intelmqctl` will not perform any other actions because this `add-to-botnet` action only change the runtime configuration parameter, without perform start/stop/restart/reload actions.
-* `intelmqctl` will log a message "<bot_id> runtime configuration has been changed in order to add the bot to the botnet but the bot will keep is current status (running or stopped). Please check bot current status and then perform, if needs, the action to start/stop/restart"
-
-
-## intelmqctl remove-from-botnet action
-
-**Command:**
-```
-intelctl remove-from-botnet [<bot_id> ] <flags>
-```
-
-**Procedure:**
-
-* command only applies to bots, not to botnet
-* `intelmqctl` will perform the usual checks and if no errors found, `intelmqctl` will configure the botnet configuration for the <bot_id> with `botnet: false`, independently of the `run_mode` and `process_manager` configuration parameter.
-* `intelmqctl` will not perform any other actions because this `remove-from-botnet` action only change the runtime configuration parameter, without perform start/stop/restart/reload actions.
-* `intelmqctl` will log a message "<bot_id> runtime configuration has been changed in order to remove the bot from the botnet but the bot will keep is current status (running or stopped). Please check bot current status and then perform, if needs, the action to start/stop/restart"
-
-
-
-
-
-# Scenarios
+# Scenarios (DEPRECATED)
 
 ## Scenario 1
 
