@@ -35,8 +35,8 @@ Table of Contents
 * **internal {runtime, defaults, pipeline} configuration:** a hidden configuration file only used by intelmqctl to track of the last successfully configuration used to perform some action through intelmqctl. This file is located in `/var/run/intelmq/` and should not be manually changed.
 * **`process_manager: "pid/systemd"`**: is a parameter on defaults configuration which will define the process manager that IntelMQ will use to manage the bots.
 * **`onboot: true/false`** is a parameter of runtime configuration per each bot to define if a bot will start on boot.
-* **`run_mode: <scheduled/stream>`** is a parameter of runtime configuration per each bot to define how bot should run.
- - **`stream`:** this value will allow the bot to run and process messages indefinitely.
+* **`run_mode: <scheduled/continuous>`** is a parameter of runtime configuration per each bot to define how bot should run.
+ - **`continuous`:** this value will allow the bot to run and process messages indefinitely.
  - **`scheduled`:** this value will allow the bot to start at `schedule_time` (bot parameter), run one successfully time and then exit.
 * **`schedule_time`:** is a parameter of runtime configuration per each bot to define in which specific scheduled time the bot should run  This parameter needs to be defined using crontab syntax. Please note that this parameter is only applicable to bots configured as `scheduled` run_mode.
 
@@ -74,15 +74,15 @@ An IntelMQ bot configured with onboot enabled will start automatically when oper
 ## Run mode
 
 Each bot can be configured with a specific run mode such as:
-* **Stream:** bot will run and process messages indefinitely.
-* **Scheduled:** bot will start at the defined `schedule_time`, run one successfully time and then exit.
+* **continuous:** bot will run and process messages indefinitely.
+* **scheduled:** bot will start at the defined `schedule_time`, run one successfully time and then exit.
 
 **on runtime configuration:**
 ```
     "abusech-domain-parser": {
         ...
         "parameters": {
-            "run_mode": "< stream / scheduled >"
+            "run_mode": "< continuous / scheduled >"
         }
     }
 ```
@@ -140,7 +140,7 @@ intelmqctl start <bot_id> <flags>
 **Procedure:**
 
 * `intelmqctl` will not perform any action to a bot which is already running.
-* if Run mode: stream
+* if Run mode: continuous
   - if Process manager: PID
     - intelmqctl will check if there is a PID file
     - if PID file exists, do nothing
@@ -165,7 +165,7 @@ intelmqct stop <bot_id> <flags>
 **Procedure:**
 
 * `intelmqctl` will not perform any action to a bot which is already stopped.
-* if Run mode: stream
+* if Run mode: continuous
   - if Process manager: PID
     - intelmqctl will check if there is a PID file
     - if PID file exists, execute stop action on the bot and remove PID file
@@ -210,7 +210,7 @@ intelmqctl reload <bot_id> <flags>
     - "[Y] `intelmqctl` will automatically execute restart action on the bot and the bot will start with the new configuration" \
     - "[N] `intelmqctl` will not perform any action, therefore bot will keep running in the current run state.
 * else:
-  * Run mode: stream
+  * Run mode: continuous
     - Process manager: PID
       - intelmqctl will check if there is a PID file
       - if PID file exists, execute reload action on the bot
@@ -250,7 +250,7 @@ intelctl status <bot_id> <flags>
 
 **Procedure:**
 
-* Run mode: stream
+* Run mode: continuous
   - Process manager: PID
     - intelmqctl will check if there is a PID file
       - if PID file exists, log message saying the current status is "running"
@@ -267,7 +267,7 @@ intelctl status <bot_id> <flags>
 
 | bot_id    | run_mode    | scheduled_time (if applicable) | status             | enabled_on_boot | configtest   |
 |-----------|-------------|--------------------------------|--------------------|-----------------|--------------|
-| my-bot-1  | stream      | -                              | running            | yes             | valid        |
+| my-bot-1  | continuous      | -                              | running            | yes             | valid        |
 
 Also intelmqctl should print the last 10 log lines from the log of this bot.
 
@@ -291,7 +291,7 @@ intelctl enable <bot_id> <flags>
 
 * `intelmqctl` perform the usual checks and if no errors found, `intelmqctl` will configure the runtime configuration for the <bot_id> accordingly to the following procedure:
 
-* Run mode: stream
+* Run mode: continuous
   - Process manager: PID
     - intelmqctl will not perform any action and will change `onboot` configuration parameter to `false` value.
     - In the end, write a log message "IntelMQ does not support onboot configuration in PID process management. Please use systemd process management"
@@ -318,7 +318,7 @@ intelctl disable <bot_id> <flags>
 
 * `intelmqctl` perform the usual checks and if no errors found, `intelmqctl` will configure the runtime configuration for the <bot_id> accordingly to the following procedure:
 
-* Run mode: stream
+* Run mode: continuous
   - Process manager: PID
     - intelmqctl will not perform any action and will change `onboot` configuration parameter to `false` value.
     - In the end, write a log message "IntelMQ does not support onboot configuration in PID process management. Please use systemd process management"
