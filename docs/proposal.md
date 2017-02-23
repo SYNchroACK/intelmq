@@ -21,10 +21,6 @@ Table of Contents
       * [intelmqctl status action](#intelmqctl-status-action)
       * [intelmqctl enable action](#intelmqctl-enable-action)
       * [intelmqctl disable action](#intelmqctl-disable-action)
-   * [Scenarios (DEPRECATED)](#scenarios-deprecated)
-      * [Scenario 1](#scenario-1)
-      * [Scenario 2](#scenario-2)
-      * [Scenario 3](#scenario-3)
    * [Discuss with Aaron](#discuss-with-aaron)
 
 
@@ -43,6 +39,13 @@ Changing on IntelMQ configuration the process management to PID will work as alw
     ...
 }
 ```
+
+### Systemd
+
+**Systemd Services:** In this proposal there are three types of systemd services templates files.
+1. `<bot-module>.continuous.service`: these service template files are templates to be instantiated by intelmqctl for each bot module configured with `run_mode: continuous`.
+2. `<bot-module>.scheduled.service`: these service template files are templates to be to be instantiated by crontab for each bot module configured with `run_mode: scheduled`.
+3. `intelmq.scheduled_bots_onboot.service`: this service file is always enable and running in order to take care of the bots configured with `run_mode: scheduled` that need to be configured on crontab when operating system starts. Please note that this service MUST be executed only onboot and before crontab service.
 
 ## Status
 
@@ -162,14 +165,16 @@ intelmqctl start <bot_id> <flags>
     - if PID file exists, do nothing
     - if PID file does not exist, execute start action on bot and write PID file
   - if Process manager: systemd
-    - execute `systemctl start <module@bot_id>`
+    - execute `systemctl start <bot-module>.continuous@<bot_id>.service`
 * if Run mode: scheduled
-  - if Process manager: PID or systemd
+  - if Process manager: PID
     - intelmqctl will check if crontab configuration line for the bot is already on crontab:
      - if crontab configuration line exists, do nothing. In the end, write a log message "bot is already scheduled"
-     - if crontab configuration line does not exists, add configuration line on crontab such as `<schedule_time> <intelmq bot module> <bot_id> # <bot_id>`. In the end, write a log message "bot is schedule and will run at this time: `* * * * * `"
-
-
+     - if crontab configuration line does not exists, add configuration line on crontab such as `<schedule_time> <python bot module> <bot_id> # <bot_id>`. In the end, write a log message "bot is schedule and will run at this time: `* * * * * `"
+  - if Process manager: systemd
+    - intelmqctl will check if crontab configuration line for the bot is already on crontab:
+     - if crontab configuration line exists, do nothing. In the end, write a log message "bot is already scheduled"
+     - if crontab configuration line does not exists, add configuration line on crontab such as `<schedule_time> systemctl start <bot-module>.scheduled@<bot_id>.service # <bot_id>`. In the end, write a log message "bot is schedule and will run at this time: `* * * * * `"
 
 
 ## intelmqctl stop action
@@ -189,7 +194,7 @@ intelmqct stop <bot_id> <flags>
     - if PID file exists, execute stop action on the bot and remove PID file
     - if PID file does not exist, do nothing
   - if Process manager: systemd
-    - execute `systemctl stop <module@bot_id>`
+    - execute `systemctl stop <bot-module>.continuous@<bot_id>.service`
 * if Run mode: scheduled
   - if Process manager: PID or systemd
     - intelmqctl will check if crontab configuration line for the bot is still on crontab
@@ -234,7 +239,7 @@ intelmqctl reload <bot_id> <flags>
       - if PID file exists, execute reload action on the bot
       - if PID file does not exist, do nothing
     - Process manager: systemd
-      - execute `systemctl reload <module@bot_id>` (this action will be automatically specified in systemd template service file)
+      - execute `systemctl reload <bot-module>.continuous@<bot_id>.service` (this action will be automatically specified in systemd template service file)
   * Run mode: scheduled
     - Process manager: PID or systemd
       - intelmqctl will check if crontab configuration line for the bot is still on crontab:
@@ -274,7 +279,7 @@ intelmqctl status <bot_id> <flags>
       - if PID file exists, log message saying the current status is "running"
       - if PID file does not exists, log message saying the current status is "not running"
   - Process manager: systemd
-    - execute `systemctl status <module@bot_id>`
+    - execute `systemctl status <bot-module>.continuous@<bot_id>.service`
 * Run mode: scheduled
   - Process manager: PID or systemd
     - intelmqctl will check if bot is configured on crontab
@@ -314,7 +319,7 @@ intelmqctl enable <bot_id> <flags>
     - intelmqctl will not perform any action and will change `onboot` configuration parameter to `false` value.
     - In the end, write a log message "IntelMQ does not support onboot configuration in PID process management. Please use systemd process management"
   - Process manager: systemd
-    - execute `systemctl enable <module@bot_id>`
+    - execute `systemctl enable <bot-module>.continuous@<bot_id>.service`
     - intelmqctl will change `onboot` configuration parameter to `true` value.
 * Run mode: scheduled
   - Process manager: PID
@@ -322,7 +327,7 @@ intelmqctl enable <bot_id> <flags>
     - In the end, write a log message "IntelMQ does not support onboot configuration in PID process management. Please use systemd process management"
   - Process manager: systemd
     - intelmqctl will change `onboot` configuration parameter to `true` value.
-    - intelmqctl will not perform any other action because there is a `intelmq.scheduled_bots_on_boot.service` which is always enable and will automatically write the crontab configuration accordingly to the all bots configured as `run_mode: scheduled` and `onboot: true`, therefore will write on crontab configuration the correct crontab entry to this bot enabled onboot. For more information please read "Run Modes with Process Management concept" section.
+    - intelmqctl will not perform any other action because there is a `intelmq.scheduled_bots_onboot.service` which is always enable and will automatically write the crontab configuration accordingly to the all bots configured as `run_mode: scheduled` and `onboot: true`, therefore will write on crontab configuration the correct crontab entry to this bot enabled onboot. For more information please read "Run Modes with Process Management concept" section.
 
 
 ## intelmqctl disable action
@@ -341,7 +346,7 @@ intelmqctl disable <bot_id> <flags>
     - intelmqctl will not perform any action and will change `onboot` configuration parameter to `false` value.
     - In the end, write a log message "IntelMQ does not support onboot configuration in PID process management. Please use systemd process management"
   - Process manager: systemd
-    - execute `systemctl disable <module@bot_id>`
+    - execute `systemctl disable <bot-module>.continuous@<bot_id>.service`
     - intelmqctl will change `onboot` configuration parameter to `false` value.
 * Run mode: scheduled
   - Process manager: PID
@@ -349,70 +354,7 @@ intelmqctl disable <bot_id> <flags>
     - In the end, write a log message "IntelMQ does not support onboot configuration in PID process management. Please use systemd process management"
   - Process manager: systemd
     - intelmqctl will change `onboot` configuration parameter to `false` value.
-    - intelmqctl will not perform any other action because there is a `intelmq.scheduled_bots_on_boot.service` which is always enable and will automatically write the crontab configuration accordingly to the all bots configured as `run_mode: scheduled` and `onboot: true`, therefore will not write on crontab configuration anything related to this bot disabled onboot. For more information please read "Run Modes with Process Management concept" section.
-
-
-
-# Scenarios (DEPRECATED)
-
-## Scenario 1
-
-**Scenario:** botnet start command after bot configuration was manually removed
-
-Please note that this scenario is using botnet commands, therefore, it's crutial to have a good understand about botnet concept. Also, every single mentioned to "bots", except mentioned explicity, means bots which are part of the botnet.
-
-1. In this case there are 10 bots configured as `botnet: true`. Admin execute the command to start the botnet.
-2. Admin accidentally remove manually a bot with `bot_id: my-bot-1` from admin runtime configuration without stopping it previously.
-3. Admin add manually a new bot with `bot_id: my-bot-2` to admin runtime configuration.
-4. Admin execute the command to start the botnet which will do the following:
- 1. do nothing to the bots which were already started in the first execution of the command to start the botnet
- 2. execute start command following normal procedure to the `bot_id: my-bot-2` and intelmqctl will update the internal runtime configuration accordingly.
- 3. keep the bot with `bot_id: my-bot-1` running but will also add the configuration stored in internal runtime configuration to the admin runtime configuration in order to prevent possible loss of bot configuration by this user mistake (not following the correct procedure).
- 4. log a warning message providing information to the admin explaining the situation: "intelmqctl detected that bot my-bot-1 is still running but has been removed from user runtime configuration. intelmqctl added it to the user runtime configuration. Please first stop the bot, and remove it afterwards.".
-
-The **correct procedure** is stop bot first and then remove bot configuration from admin runtime configuration.
-
-## Scenario 2
-
-**Scenario:** botnet stop command after bot configuration was manually removed
-
-Please note that this scenario is using botnet commands, therefore, it's crutial to have a good understand about botnet concept. Also, every single mentioned to "bots", except mentioned explicity, means bots which are part of the botnet.
-
-1. In this case there are 10 bots configured as `botnet: True`. Admin execute the command to start the botnet.
-2. Admin accidentally remove manually a bot with `bot_id: my-bot-1` from admin runtime configuration without stopping it previously.
-3. Admin execute the command stop one of the bots with `bot_id: my-bot-2` already configured bot in runtime configuration.
-5. Admin change manually a completely new admin runtime configuration to the bot with `bot_id: my-bot-3` which was already configured with other configuration parameters.
-6. Admin execute the command to stop the botnet which will do the following:
- 1. do nothing to the bots which were already stopped, in this specific scenario, nothing will perform to the bot with `bot_id: my-bot-2`
- 2. do nothing to the bots which never started, in this specific scenario, nothing will perform to the new bot with `bot_id: my-bot-3` which was only added to the admin runtime configuration steps before.
- 2. execute stop command following normal procedure to all configured bots on admin runtime configuration which are still running, in this scenario, this action will not be applicable to the bots: `bot_id: my-bot-1`, `bot_id: my-bot-2` and `bot_id: my-bot-3`.
- 3. execute stop command to the bot `bot_id: my-bot-1` and also add the configuration stored in internal runtime configuration to the admin runtime configuration in order to prevent possible loss of bot configuration by this user mistake (not following the correct procedure).
- 4. log a warning message providing information to the admin explaining the situation: "intelmqctl detected that bot with `bot_id: my-bot-1` is was running but has been removed from admin runtime configuration. intelmqctl stopped it and added it to the admin runtime configuration. Please first stop the bot, and remove it afterwards.".
-
-The **correct procedure** is stop bot first and then remove bot configuration from admin runtime configuration.
-
-
-## Scenario 3
-
-**Scenario:** botnet reload command after bot configuration was manually removed
-
-Please note that this scenario is using botnet commands, therefore, it's crutial to have a good understand about botnet concept. Also, every single mentioned to "bots", except mentioned explicity, means bots which are part of the botnet.
-
-1. In this case there are 10 bots configured as `botnet: True`. Admin execute the command to start the botnet.
-2. Admin execute the command to stop a bot with `bot_id: my-bot-1`.
-3. Admin accidentally remove manually a bot with `bot_id: my-bot-2` from admin runtime configuration without stopping it previously.
-4. Admin execute the command to reload the botnet which will do the following:
- 1. do nothing to the bots which are stopped, in this specific scenario, nothing will perform to the bot with `bot_id: my-bot-1`
- 2. execute reload command following normal procedure to all configured bots on admin runtime configuration which are still running, in this specific scenario, will perform to all bots except the bots with `bot_id: my-bot-1` and `bot_id: my-bot-2`.
- 3. log a warning message providing information to the admin explaining the situation: "intelmqct detected that bot with `bot_id: my-bot-2` is still running but has been removed from admin runtime configuration."
- 4. in interactive mode, intelmqctl will ask the following question: "Do you want to stop the bot with `bot_id: my-bot-2`? [N/y]"
-
-  * if "Y", intelmqctl remove the bot configuration from runtime configuration (internal and admin configurations) and also check in all IntelMQ system if there is some additional internal configurations that are still having configured that bot.
-  * if "N", intelmqctl add the bot configuration stored in internal runtime configuration to the admin runtime configuration in order to keep the admin runtime configuration up to date accordingly.
-
-The **correct procedure** is stop bot first and then remove bot configuration from admin runtime configuration.
-
-
+    - intelmqctl will not perform any other action because there is a `intelmq.scheduled_bots_onboot.service` which is always enable and will automatically write the crontab configuration accordingly to the all bots configured as `run_mode: scheduled` and `onboot: true`, therefore will not write on crontab configuration anything related to this bot disabled onboot. For more information please read "Run Modes with Process Management concept" section.
 
 
 
@@ -422,3 +364,6 @@ The **correct procedure** is stop bot first and then remove bot configuration fr
  * Tomas: need clarification from Aaron
 * Aaron: process manager is independent of run mode (in an abstract sense). Let's keep this separated.
  * Tomas: dont understand this comment. This comment is on a Process management section which does not mention anything about run modes. 
+* Tomas: the "OnBoot Scheduled Bots Service" bubble in diagram is still required because if bot is configured as: `run_mode: scheduled`, `onboot: true` and sysadmin stopped the bot before the operating system restart, the bot will not start since was not in crontab.
+* Aaron: too complicated. It tries to solve independent things at once in one document --> split it!
+ * Tomas: they are not independent, I would say that is a really a challenge to describe one piece without mentioning other one or without having knowledge about other one. Also, its better for proposal purposes to have all info in one document... 
