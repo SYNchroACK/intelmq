@@ -3,14 +3,14 @@ Table of Contents
 
    * [Concepts](#concepts)
       * [Process management](#process-management)
-      * [Status](#status)
+         * [Systemd](#systemd)
       * [Onboot](#onboot)
       * [Run mode](#run-mode)
       * [Run Modes with Process Management](#run-modes-with-process-management)
       * [Configurations (admin vs internal)](#configurations-admin-vs-internal)
    * [intelmqctl](#intelmqctl)
       * [Overview](#overview)
-         * [intelmqctl Principles](#intelmqctl-principles)
+         * [Principles](#principles)
          * [Syntax](#syntax)
          * [Generic flags](#generic-flags)
       * [intelmqctl start action](#intelmqctl-start-action)
@@ -21,7 +21,6 @@ Table of Contents
       * [intelmqctl status action](#intelmqctl-status-action)
       * [intelmqctl enable action](#intelmqctl-enable-action)
       * [intelmqctl disable action](#intelmqctl-disable-action)
-   * [Discuss with Aaron](#discuss-with-aaron)
 
 
 # Concepts
@@ -111,7 +110,9 @@ The checks which will be performed are hard to explain in this document... For t
 
 # intelmqctl
 
-## Overview & Principles
+## Overview
+
+### Principles
 
 There are principles defined for `intelmqctl` in order to simplify this document and remove duplication of phrases and special notes for some cases, therefore `intelmqctl` will always:
 * execute the bot background, not in foreground.
@@ -122,7 +123,7 @@ There are principles defined for `intelmqctl` in order to simplify this document
  * intelmqctl will automatically re-add the missing configuration and ask to syadmin to re-run the command again, now with the configurations cleaned.
 
 
-## Syntax
+### Syntax
 ```
 intelmqctl <action command> <bot_id> <flags>
 ```
