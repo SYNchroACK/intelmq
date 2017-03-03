@@ -2,11 +2,10 @@ Table of Contents
 =================
 
    * [Concepts](#concepts)
-      * [Process management](#process-management)
-         * [Systemd](#systemd)
-      * [Onboot](#onboot)
       * [Run mode](#run-mode)
+      * [Process management](#process-management)
       * [Run Modes with Process Management](#run-modes-with-process-management)
+      * [Onboot](#onboot)
    * [intelmqctl](#intelmqctl)
       * [Overview](#overview)
          * [Principles](#principles)
@@ -23,6 +22,26 @@ Table of Contents
 
 
 # Concepts
+
+
+## Run mode
+
+Each bot can be configured with a specific run mode such as:
+* **continuous:** bot will run and process messages indefinitely.
+* **scheduled:** bot will start at the defined `schedule_time`, run one successfully time and then exit.
+
+**on runtime configuration:**
+```
+    "abusech-domain-parser": {
+        ...
+        "parameters": {
+            "run_mode": "< continuous / scheduled >"
+        }
+    }
+```
+
+**Schedule time parameter clarification:**
+`schedule_time` is a parameter defined per each bot on runtime configuration which specify the scheduled time when the bot should run. This parameter needs to be defined using crontab syntax. Please note that this parameter is only applicable to bots configured as `scheduled` run_mode.
 
 
 ## Process management
@@ -48,6 +67,10 @@ Changing on IntelMQ configuration the process management to PID will work as alw
 3. `intelmq.scheduled_bots_onboot.service`: this service file exists in order to take care of the bots configured with `run_mode: scheduled` that need to be configured on crontab when operating system starts. Please note that this service MUST be executed only onboot and before crontab service.
 
 
+## Run Modes with Process Management
+
+![architecture](https://s22.postimg.org/qdylth98x/intelmq_bots_management.png)
+
 
 ## Onboot
 
@@ -63,33 +86,6 @@ An IntelMQ bot configured with onboot enabled will start automatically when oper
 ```
 
 **Note:** this configuration parameter only works with `Systemd` as Process Manager. If you are using `PID`, you need to create your own init scripts.
-
-
-
-## Run mode
-
-Each bot can be configured with a specific run mode such as:
-* **continuous:** bot will run and process messages indefinitely.
-* **scheduled:** bot will start at the defined `schedule_time`, run one successfully time and then exit.
-
-**on runtime configuration:**
-```
-    "abusech-domain-parser": {
-        ...
-        "parameters": {
-            "run_mode": "< continuous / scheduled >"
-        }
-    }
-```
-
-**Schedule time parameter clarification:**
-`schedule_time` is a parameter defined per each bot on runtime configuration which specify the scheduled time when the bot should run. This parameter needs to be defined using crontab syntax. Please note that this parameter is only applicable to bots configured as `scheduled` run_mode.
-
-
-
-## Run Modes with Process Management
-
-![architecture](https://s22.postimg.org/qdylth98x/intelmq_bots_management.png)
 
 
 # intelmqctl
