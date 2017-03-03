@@ -155,29 +155,30 @@ intelmqctl start <bot_id> <flags>
 
 ### Procedure
 
-**Bot is running:**
+**> Bot is running:**
 * will not perform any action
 
 
-**Bot configured with "Continuous" Run Mode and "PID" Process Manager:**
+**> Bot configured with "Continuous" Run Mode and "PID" Process Manager:**
 * intelmqctl will check if there is a PID file
 * if PID file exists, do nothing
 * if PID file does not exist, execute start action on bot and write PID file
 
 
-**Bot configured with "Continuous" Run Mode and "Systemd" Process Manager:**
+**> Bot configured with "Continuous" Run Mode and "Systemd" Process Manager:**
 * execute `systemctl start <bot-module>.continuous@<bot_id>.service`
 
 
-* if Run mode: scheduled
-  - if Process manager: PID
-    - intelmqctl will check if crontab configuration line for the bot is already on crontab:
-     - if crontab configuration line exists, do nothing. In the end, write a log message "bot is already scheduled"
-     - if crontab configuration line does not exists, add configuration line on crontab such as `<schedule_time> intelmqctl start <bot_id> --schedule-exec # <bot_id>`. In the end, write a log message "bot is schedule and will run at this time: `* * * * * `"
-  - if Process manager: systemd
-    - intelmqctl will check if crontab configuration line for the bot is already on crontab:
-     - if crontab configuration line exists, do nothing. In the end, write a log message "bot is already scheduled"
-     - if crontab configuration line does not exists, add configuration line on crontab such as `<schedule_time> systemctl start <bot-module>.scheduled@<bot_id>.service # <bot_id>`. In the end, write a log message "bot is schedule and will run at this time: `* * * * * `"
+**> Bot configured with "Scheduled" Run Mode and "PID" Process Manager:**
+- intelmqctl will check if crontab configuration line for the bot is already on crontab:
+- if crontab configuration line exists, do nothing. In the end, write a log message "bot is already scheduled"
+- if crontab configuration line does not exists, add configuration line on crontab such as `<schedule_time> intelmqctl start <bot_id> --schedule-exec # <bot_id>`. In the end, write a log message "bot is schedule and will run at this time: `* * * * * `"
+
+
+**> Bot configured with "Scheduled" Run Mode and "Systemd" Process Manager:**
+- intelmqctl will check if crontab configuration line for the bot is already on crontab:
+- if crontab configuration line exists, do nothing. In the end, write a log message "bot is already scheduled"
+- if crontab configuration line does not exists, add configuration line on crontab such as `<schedule_time> systemctl start <bot-module>.scheduled@<bot_id>.service # <bot_id>`. In the end, write a log message "bot is schedule and will run at this time: `* * * * * `"
 
 
 ## intelmqctl stop action
