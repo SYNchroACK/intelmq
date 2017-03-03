@@ -69,7 +69,7 @@ Changing on IntelMQ configuration the process management to PID will work as alw
 
 ## Run Modes with Process Management
 
-![architecture](https://s22.postimg.org/qdylth98x/intelmq_bots_management.png)
+![architecture](https://s2.postimg.org/6hmikcg4p/intelmq_bots_management_1.png)
 
 
 ## Onboot
