@@ -26,10 +26,13 @@ Table of Contents
 
 ## Run mode
 
-Each bot can be configured with a specific run mode such as:
-* **continuous:** bot will run and process messages indefinitely.
-* **scheduled:** bot will start at the defined `schedule_time`, run one successfully time and then exit.
+Each bot has two modes of execution, as follows:
 
+* **continuous:** bot will run and process messages indefinitely.
+* **scheduled:** bot will start at the defined `schedule_time`, and after on successfully execution will exit.
+
+The following snippet exemplifies the bot's run modes configuration.
+ 
 **on runtime configuration:**
 ```
     "abusech-domain-parser": {
@@ -41,13 +44,13 @@ Each bot can be configured with a specific run mode such as:
 ```
 
 **Schedule time parameter clarification:**
-`schedule_time` is a parameter defined per each bot on runtime configuration which specify the scheduled time when the bot should run. This parameter needs to be defined using crontab syntax. Please note that this parameter is only applicable to bots configured as `scheduled` run_mode.
+`schedule_time` is a parameter defined per each bot on runtime configuration which specifies the scheduled time when the bot should run. This parameter needs to be defined using crontab syntax. Attention that this parameter is only applicable to bots configured as `scheduled` run_mode.
 
 
 ## Process management
 
-Process management on IntelMQ has two modes on this proposal: systemd and PID.
-Changing on IntelMQ configuration the process management to PID will work as always worked before. Using systemd to do process management will rely on systemd to manage the IntelMQ.
+IntelMQ process management has two approaches, one based on Systemd and the other on PID.
+The default choice is the Systemd that will manage the IntelMQ processes. Changing the configuration back to PID, will make IntelMQ work as previously.
 
 **on defaults configuration:**
 ```
@@ -60,11 +63,11 @@ Changing on IntelMQ configuration the process management to PID will work as alw
 
 ### Systemd
 
-**Systemd Services:** In this proposal there are three types of systemd services templates files.
+**Systemd Services:** To support the Systemd approach; this proposal provides template files for three types of systemd services.
 
-1. `<bot-module>.continuous.service`: these service template files are templates to be instantiated by intelmqctl for each bot module configured with `run_mode: continuous`.
-2. `<bot-module>.scheduled.service`: these service template files are templates to be to be instantiated by crontab for each bot module configured with `run_mode: scheduled`.
-3. `intelmq.scheduled_bots_onboot.service`: this service file exists in order to take care of the bots configured with `run_mode: scheduled` that need to be configured on crontab when operating system starts. Please note that this service MUST be executed only onboot and before crontab service.
+1. `<bot-module>.continuous.service`: this template should be instantiated by intelmqctl per bot module configured with `run_mode: continuous`.
+2. `<bot-module>.scheduled.service`: this template should be instantiated by crontab per bot module configured with `run_mode: scheduled`.
+3. `intelmq.scheduled_bots_onboot.service`: this template file exists to manage bots configured with `run_mode: scheduled`, which need to be configured on crontab during operating system boot. Please note, that this service MUST be executed only onboot and before crontab service starts.
 
 
 ## Run Modes with Process Management
@@ -86,7 +89,6 @@ An IntelMQ bot configured with onboot enabled will start automatically when oper
 ```
 
 **Note:** this configuration parameter only works with `Systemd` as Process Manager. If you are using `PID`, you need to create your own init scripts.
-
 
 # intelmqctl
 
