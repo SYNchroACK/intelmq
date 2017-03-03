@@ -111,11 +111,9 @@ The checks which will be performed are hard to explain in this document... For t
 
 # intelmqctl
 
-## Overview
+## Overview & Principles
 
-### `intelmqctl` Principles
-
-`intelmqctl` will always:
+There are principles defined for `intelmqctl` in order to simplify this document and remove duplication of phrases and special notes for some cases, therefore `intelmqctl` will always:
 * execute the bot background, not in foreground.
 * provide the possibility to be executed in interaction mode or in non-interaction mode using flags.
 * provide the best log message in order to give additional information to sysadmin about the actions performed. 
@@ -124,7 +122,7 @@ The checks which will be performed are hard to explain in this document... For t
  * intelmqctl will automatically re-add the missing configuration and ask to syadmin to re-run the command again, now with the configurations cleaned.
 
 
-### Syntax
+## Syntax
 ```
 intelmqctl <action command> <bot_id> <flags>
 ```
@@ -139,7 +137,6 @@ intelmqctl start --filter "run_mode:scheduled, group:Collectors"
 ```
 intelmqctl stop --filter "run_mode:continuous, group:Outputs"
 ```
-
 
 ## intelmqctl start action
 
