@@ -155,14 +155,20 @@ intelmqctl start <bot_id> <flags>
 
 **Procedure:**
 
-* `intelmqctl` will not perform any action to a bot which is already running.
-* if Run mode: continuous
-  - if Process manager: PID
-    - intelmqctl will check if there is a PID file
-    - if PID file exists, do nothing
-    - if PID file does not exist, execute start action on bot and write PID file
-  - if Process manager: systemd
-    - execute `systemctl start <bot-module>.continuous@<bot_id>.service`
+Bot is running:
+* will not perform any action
+
+
+Bot configured with "Continuous" Run Mode and "PID" Process Manager:
+* intelmqctl will check if there is a PID file
+* if PID file exists, do nothing
+* if PID file does not exist, execute start action on bot and write PID file
+
+
+Bot configured with "Continuous" Run Mode and "Systemd" Process Manager:
+* execute `systemctl start <bot-module>.continuous@<bot_id>.service`
+
+
 * if Run mode: scheduled
   - if Process manager: PID
     - intelmqctl will check if crontab configuration line for the bot is already on crontab:
