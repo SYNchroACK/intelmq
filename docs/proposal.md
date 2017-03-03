@@ -127,6 +127,12 @@ intelmqctl stop --filter "run_mode:continuous, group:Outputs"
 intelmqctl start <bot_id> <flags>
 ```
 
+### Description
+
+The start command will start normally a bot configured as continuous run mode and for a bot configured as scheduled run mode it will put an entry on crontab ready to be trigger by Crontab on scheduled time defined on bot configuration. This means that start command for scheduled bots could be called `intelmqctl schedule` and the opposite `intelmqctl unschedule`, however, having one command for all run modes types can be simplified with the following principle:
+* intelmqctl start will start (now or scheduling) a bot accordingly to the bot configuration (continuous or scheduled run mode) without the user needs to use different commands.
+
+
 ### Procedure
 
 **> 1. Bot status check:**
@@ -163,6 +169,11 @@ intelmqctl start <bot_id> <flags>
 intelmqct stop <bot_id> <flags>
 ```
 
+### Description
+
+The stop command will stop normally a bot configured as continuous run mode and for a bot configured as scheduled run mode it will remove the entry from crontab.
+
+
 ### Procedure
 
 **> 1. Bot status check:**
@@ -189,6 +200,11 @@ intelmqct stop <bot_id> <flags>
 intelmqctl restart <bot_id> <flags>
 ```
 
+### Description
+
+The restart command will call the stop and start commands.
+
+
 ### Procedure
 
 **> 1. Independently of bot status and run mode and process manager configurations:**
@@ -203,6 +219,11 @@ intelmqctl restart <bot_id> <flags>
 ```
 intelmqctl reload <bot_id> <flags>
 ```
+
+### Description
+
+The reload command will tell to the bot (if bot is running) to reload the configuration in order to execute accordingly to the new configuration.
+
 
 ### Procedure
 
@@ -232,6 +253,11 @@ intelmqctl reload <bot_id> <flags>
 intelmqctl configtest <bot_id> <flags>
 ```
 
+### Description
+
+The configtest command will perform multiple tests on configuration in order to provide help to the sysadmin during bots configuration.
+
+
 ### Procedure
 
 **> 1.1 Check configuration format:**
@@ -247,6 +273,11 @@ intelmqctl configtest <bot_id> <flags>
 ```
 intelmqctl status <bot_id> <flags>
 ```
+
+### Description
+
+The status command will provide information about the status of bot(s).
+
 
 ### Procedure
 
@@ -290,6 +321,11 @@ Also intelmqctl may print the last 10 log lines from the log of this bot.
 intelmqctl enable <bot_id> <flags>
 ```
 
+### Description
+
+The enable command will define the bot to start automatically when operating system starts.
+
+
 ### Procedure
 
 **> 1.1 Bot configured with "Continuous" Run Mode and "PID" Process Manager:**
@@ -313,6 +349,11 @@ intelmqctl enable <bot_id> <flags>
 ```
 intelmqctl disable <bot_id> <flags>
 ```
+
+### Description
+
+The disable command will define the bot to NOT start automatically when operating system starts.
+
 
 ### Procedure
 
