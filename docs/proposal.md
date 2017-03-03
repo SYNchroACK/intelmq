@@ -141,31 +141,31 @@ intelmqctl stop --filter "run_mode:continuous, group:Outputs"
 
 ## intelmqctl start action
 
-**Command:**
+### Command
 
 ```
 intelmqctl start <bot_id> <flags>
 ```
 
-**Specific flags:**
+#### Specific flags
 
 * `--oneshot`: this flag will execute the bot now and process successfully one message and then exit. This action MUST NOT taking into account `run_mode`.
 * `--foreground`: this flag will execute the bot in foreground, showing the logs in the terminal window.
 * `--schedule-exec`: this flag will execute the bot now and process successfully one message and then exit. This action **MUST only be used** to configure a scheduled bot on Crontab configuration and in a normal case an user don't need to be aware of it. Performing `intelmqctl start <bot-id>` where `bot-id` is a bot configured as scheduled will automatically put a new entry on Crontab with this flag `--schedule-exec`.
 
-**Procedure:**
+### Procedure
 
-Bot is running:
+**Bot is running:**
 * will not perform any action
 
 
-Bot configured with "Continuous" Run Mode and "PID" Process Manager:
+**Bot configured with "Continuous" Run Mode and "PID" Process Manager:**
 * intelmqctl will check if there is a PID file
 * if PID file exists, do nothing
 * if PID file does not exist, execute start action on bot and write PID file
 
 
-Bot configured with "Continuous" Run Mode and "Systemd" Process Manager:
+**Bot configured with "Continuous" Run Mode and "Systemd" Process Manager:**
 * execute `systemctl start <bot-module>.continuous@<bot_id>.service`
 
 
@@ -182,13 +182,13 @@ Bot configured with "Continuous" Run Mode and "Systemd" Process Manager:
 
 ## intelmqctl stop action
 
-**Command:**
+### Command
 
 ```
 intelmqct stop <bot_id> <flags>
 ```
 
-**Procedure:**
+### Procedure
 
 * `intelmqctl` will not perform any action to a bot which is already stopped.
 * if Run mode: continuous
