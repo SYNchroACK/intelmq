@@ -5,6 +5,8 @@ Table of Contents
       * [Run mode](#run-mode)
       * [Process management](#process-management)
       * [Run Modes with Process Management](#run-modes-with-process-management)
+         * [Systemd Process Management](#systemd-process-management)
+         * [PID Process Management](#pid-process-management)
       * [Onboot](#onboot)
    * [intelmqctl](#intelmqctl)
       * [Overview](#overview)
@@ -72,8 +74,11 @@ The default choice is the Systemd that will manage the IntelMQ processes. Changi
 
 ## Run Modes with Process Management
 
-![architecture](https://s2.postimg.org/6hmikcg4p/intelmq_bots_management_1.png)
+### Systemd Process Management
+![architecture](https://s9.postimg.org/9s0bne4n3/intelmq_bots_management_with_systemd.png)
 
+### PID Process Management
+![architecture](https://s11.postimg.org/lnzdjslrn/intelmq_bots_management_with_pid.png)
 
 ## Onboot
 
