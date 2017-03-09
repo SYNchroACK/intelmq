@@ -209,7 +209,7 @@ The restart command will call the stop and start commands.
 
 ### Internal Procedure
 
-**> 1. Independently of bot status and run mode and process manager configurations:
+**> 1.** Independently of bot status and run mode and process manager configurations:
 * `intelmqctl` will use the stop action command and start action command to perform the restart, therefore, there is no additional information required here, is only to actions commands being executed already explained.
 
 
@@ -262,10 +262,10 @@ The configtest command will perform multiple tests on configuration in order to 
 
 ### Internal Procedure
 
-**> 1.1 Check configuration format:
+**> 1.1** Check configuration format:
 * in case the configuration format (JSON) has problems, give an error message to user about the config format
 
-**> 1.2 Check bots configuration parameters:
+**> 1.2** Check bots configuration parameters:
 * in case some bot configuration parameters has problems, give an error message to user about the bot config parameter.
 
 
