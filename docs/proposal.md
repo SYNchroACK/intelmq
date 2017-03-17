@@ -148,7 +148,7 @@ The start command will, if bot configured as:
 * `continuous` run mode, execute the bot immediately.
 * `scheduled` run mode, add an entry on crontab in order to be trigger by Crontab on `schedule_time` parameter defined on bot configuration.
 
-The reason why intelmqctl has only one command action (`start`) for both run modes is for simplicity and following this definition:
+**Note:** the reason why intelmqctl has only one command action (`start`) for both run modes is for simplicity and following this definition:
 * `intelmqctl start` command (without flags) will always execute a bot ACCORDINGLY to the bot runtime configuration (continuous or scheduled run mode) without the user using different commands for each run mode.
 
 
