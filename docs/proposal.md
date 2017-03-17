@@ -136,8 +136,20 @@ intelmqctl start <bot_id> <flags>
 
 ### Description
 
-The start command will start normally a bot configured as continuous run mode and for a bot configured as scheduled run mode it will put an entry on crontab ready to be trigger by Crontab on scheduled time defined on bot configuration. This means that start command for scheduled bots could be called `intelmqctl schedule` and the opposite `intelmqctl unschedule`, however, having one command for all run modes types can be simplified with the following principle:
-* intelmqctl start will start (now or scheduling) a bot accordingly to the bot configuration (continuous or scheduled run mode) without the user needs to use different commands.
+The start command if bot configured as:
+* `continuous` run mode will execute the bot immediately.
+* `scheduled` run mode will add an entry on crontab in order to be trigger by Crontab on `schedule_time` parameter defined on bot configuration.
+
+The reason why intelmqctl has only one command action (`start`) for both run modes is for simplicity and following this definition:
+* `intelmqctl start` command (without flags) will always execute a bot ACCORDINGLY to the bot runtime configuration (continuous or scheduled run mode) without the user using different commands for each run mode.
+
+
+#### Specific flags
+
+* `--oneshot`: this flag will execute the bot now and process successfully one message and then exit. This action MUST NOT take into account `run_mode`.
+
+
+* `--foreground`: this flag will execute the bot in foreground, showing the logs in the terminal window.
 
 
 ### Internal Procedure
@@ -152,20 +164,10 @@ The start command will start normally a bot configured as continuous run mode an
 * execute `systemctl start <bot-module>.continuous@<bot_id>.service`
 
 **> 2.3** if Bot configured with "Scheduled" Run Mode and "PID" Process Manager:
-* add configuration line on crontab such as `<schedule_time> intelmqctl start <bot_id> --cron-exec # <bot_id>`
+* add configuration line on crontab such as `<schedule_time> intelmqctl start <bot_id> --oneshot # <bot_id>`
 
 **> 2.4** if Bot configured with "Scheduled" Run Mode and "Systemd" Process Manager:
-* add configuration line on crontab such as `<schedule_time> intelmqctl start <bot_id> --cron-exec # <bot_id>`
-
-#### Specific flags
-
-* `--oneshot`: this flag will execute the bot now and process successfully one message and then exit. This action MUST NOT taking into account `run_mode`.
-
-
-* `--foreground`: this flag will execute the bot in foreground, showing the logs in the terminal window.
-
-
-* `--cron-exec`: this flag will execute the bot now and process successfully one message and then exit. This action **MUST only be used** to configure a scheduled bot on Crontab configuration and in a normal case an user don't need to be aware of it. Performing `intelmqctl start <bot-id>` where `bot-id` is a bot configured as scheduled will automatically put a new entry on Crontab with this flag `--cron-exec`. In practice, the command which will be used in case Process Manager is systemd, will be `systemctl start <bot-module>.scheduled@<bot_id>.service`
+* add configuration line on crontab such as `<schedule_time> intelmqctl start <bot_id> --oneshot # <bot_id>`
 
 
 ## intelmqctl stop action
@@ -193,10 +195,10 @@ The stop command will stop normally a bot configured as continuous run mode and 
 * execute `systemctl stop <bot-module>.continuous@<bot_id>.service`
 
 **> 2.3** if Bot configured with "Scheduled" Run Mode and "PID" Process Manager:
-* remove configuration line on crontab such as `<schedule_time> intelmqctl start <bot_id> --cron-exec # <bot_id>`
+* remove configuration line on crontab such as `<schedule_time> intelmqctl start <bot_id> --oneshot # <bot_id>`
 
 **> 2.4** if Bot configured with "Scheduled" Run Mode and "Systemd" Process Manager:
-* remove configuration line on crontab such as `<schedule_time> intelmqctl start <bot_id> --cron-exec # <bot_id>`
+* remove configuration line on crontab such as `<schedule_time> intelmqctl start <bot_id> --oneshot # <bot_id>`
 
 
 ## intelmqctl restart action
@@ -247,10 +249,10 @@ The reload command will tell to the bot (if bot is running) to reload the config
 * execute `systemctl reload <bot-module>.continuous@<bot_id>.service`
 
 **> 2.3** if Bot is running and configured with "Scheduled" Run Mode and "PID" Process Manager:
-* check and rewrite (if needed) the configuration line on crontab such as `<schedule_time> intelmqctl start <bot_id> --cron-exec # <bot_id>`
+* check and rewrite (if needed) the configuration line on crontab such as `<schedule_time> intelmqctl start <bot_id> --oneshot # <bot_id>`
 
 **> 2.4** if Bot is running and configured with "Scheduled" Run Mode and "Systemd" Process Manager:
-* check and rewrite (if needed) the configuration line on crontab such as `<schedule_time> intelmqctl start <bot_id> --cron-exec # <bot_id>`
+* check and rewrite (if needed) the configuration line on crontab such as `<schedule_time> intelmqctl start <bot_id> --oneshot # <bot_id>`
 
 
 ## intelmqctl configtest action
@@ -295,10 +297,10 @@ The status command will provide information about the status of bot(s).
 * execute `systemctl status <bot-module>.continuous@<bot_id>.service`
 
 **> 1.3** if Bot configured with "Scheduled" Run Mode and "PID" Process Manager:
-* check configuration line on crontab such as `<schedule_time> intelmqctl start <bot_id> --cron-exec # <bot_id>`
+* check configuration line on crontab such as `<schedule_time> intelmqctl start <bot_id> --oneshot # <bot_id>`
 
 **> 1.4** if Bot configured with "Scheduled" Run Mode and "Systemd" Process Manager:
-* check configuration line on crontab such as `<schedule_time> intelmqctl start <bot_id> --cron-exec # <bot_id>`
+* check configuration line on crontab such as `<schedule_time> intelmqctl start <bot_id> --oneshot # <bot_id>`
 
 
 
