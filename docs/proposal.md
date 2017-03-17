@@ -134,6 +134,14 @@ intelmqctl stop --filter "run_mode:continuous, group:Outputs"
 intelmqctl start <bot_id> <flags>
 ```
 
+#### Specific flags
+
+* `--oneshot`: this flag will execute the bot now and process successfully one message and then exit. This action MUST NOT take into account `run_mode`.
+
+
+* `--foreground`: this flag will execute the bot in foreground, showing the logs in the terminal window.
+
+
 ### Description
 
 The start command will, if bot configured as:
@@ -142,14 +150,6 @@ The start command will, if bot configured as:
 
 The reason why intelmqctl has only one command action (`start`) for both run modes is for simplicity and following this definition:
 * `intelmqctl start` command (without flags) will always execute a bot ACCORDINGLY to the bot runtime configuration (continuous or scheduled run mode) without the user using different commands for each run mode.
-
-
-#### Specific flags
-
-* `--oneshot`: this flag will execute the bot now and process successfully one message and then exit. This action MUST NOT take into account `run_mode`.
-
-
-* `--foreground`: this flag will execute the bot in foreground, showing the logs in the terminal window.
 
 
 ### Internal Procedure
