@@ -75,10 +75,10 @@ The default choice is the Systemd that will manage the IntelMQ processes. Changi
 ## Run Modes with Process Management
 
 ### Systemd Process Management
-![architecture](https://s9.postimg.org/9s0bne4n3/intelmq_bots_management_with_systemd.png)
+![architecture](images/intelmq-bots-management-with-systemd.png)
 
 ### PID Process Management
-![architecture](https://s11.postimg.org/lnzdjslrn/intelmq_bots_management_with_pid.png)
+![architecture](images/intelmq-bots-management-with-pid.png)
 
 ## Onboot
 
