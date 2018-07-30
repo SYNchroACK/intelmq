@@ -1,7 +1,7 @@
 CHANGELOG
 ==========
 
-1.1.0 (unreleased)
+1.1.0 (2018-08-21)
 ------------------
 - Support for Python 3.3 has been dropped in IntelMQ and some dependencies of it. Python 3.3 reached its end of life and Python 3.4 or newer is a hard requirement now.
 - The list of feeds docs/Feeds.md has now a machine-readable equivalent YAML file in intelmq/etc/feeds.yaml
@@ -175,9 +175,11 @@ CHANGELOG
 - New test for checking if `docs/Feeds.md` is up to date with `etc/feeds.yaml`.
 
 ### Known bugs
+- `bots.outputs.amqp`: declares default exchange, but must not do so (#1295).
+- `bots.outputs.amqp`: encoding problem: surrogates not allowed in certain cases (#1296).
+- shadowserver parser: drone feed has spam events (#1271).
+- debug log level on python 3.7 not applied (#1269).
 - `bots.experts.sieve` does not support textX (#1246).
-- performance degradation for extra fields (#1117).
-- Postgres output: support condensed JSONDicts (#1107).
 - Bots started with IntelMQ-Manager stop when the webserver is restarted (#952).
 
 1.0.6 Bugfix release (unreleased)
